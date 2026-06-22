@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Кейс Логос — B2Boost</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+
+/* ─── RESET ─────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+/* ─── TOKENS ────────────────────────────── */
+:root {
+  --bg:       #F7F6F3;
+  --surface:  #FFFFFF;
+  --dark:     #111111;
+  --mid:      #6B6B6B;
+  --light:    #E5E4E0;
+  --accent:   #1047E6;
+  --accent-l: #EEF2FF;
+  --success:  #0D7A5F;
+  --success-l:#E6F5F0;
+  --f: 'Inter', sans-serif;
+  --ease: cubic-bezier(.22,1,.36,1);
+  --r: 14px;
+  --r-lg: 20px;
+}
+
+body {
+  font-family: var(--f);
+  font-size: 16px;
+  line-height: 1.65;
+  background: var(--bg);
+  color: var(--dark);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── NAV ───────────────────────────────── */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+  height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 5vw;
+  background: rgba(247,246,243,.88);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid transparent;
+  transition: border-color .25s;
+}
+.nav.up { border-color: var(--light); }
+.nav-logo { font-size: 16px; font-weight: 700; color: var(--dark); text-decoration: none; letter-spacing: -.02em; }
+.nav-logo span { color: var(--accent); }
+.nav-right { display: flex; align-items: center; gap: 12px; }
+.nav-pill { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--mid); background: var(--surface); border: 1px solid var(--light); padding: 6px 14px; border-radius: 100px; }
+.nav-btn { font-size: 13px; font-weight: 600; color: #fff; background: var(--dark); text-decoration: none; padding: 10px 22px; border-radius: 100px; transition: background .2s; }
+.nav-btn:hover { background: var(--accent); }
+
+/* ─── HERO ──────────────────────────────── */
+.hero {
+  background: var(--dark);
+  color: #fff;
+  padding: 140px 5vw 0;
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+}
+.hero-glow {
+  position: absolute; top: -80px; right: -80px;
+  width: 500px; height: 500px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(16,71,230,.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-main {
+  display: grid;
+  grid-template-columns: 1fr 460px;
+  gap: 64px;
+  align-items: center;
+  flex: 1;
+  position: relative; z-index: 2;
+  padding-bottom: 64px;
+}
+
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+  color: rgba(255,255,255,.4);
+  margin-bottom: 28px;
+}
+.hero-eyebrow-line { width: 24px; height: 1px; background: rgba(255,255,255,.2); flex-shrink: 0; }
+
+.hero-h1 {
+  font-size: clamp(36px, 4.5vw, 58px);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -.025em;
+  color: #fff;
+}
+.hero-h1 .hl { color: #6898FF; }
+
+.hero-body {
+  margin-top: 24px;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.7;
+  color: rgba(255,255,255,.5);
+  max-width: 520px;
+}
+.hero-client {
+  margin-top: 36px;
+  display: inline-flex; align-items: center; gap: 14px;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 100px;
+  padding: 10px 20px 10px 10px;
+  background: rgba(255,255,255,.04);
+}
+.hero-av { width: 40px; height: 40px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; flex-shrink: 0; }
+.hero-client-name { font-size: 13px; font-weight: 600; color: #fff; }
+.hero-client-role { font-size: 11px; color: rgba(255,255,255,.4); margin-top: 2px; }
+
+/* ─── LOGISTICS MAP SVG ─────────────────── */
+.map-wrap {
+  position: relative;
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 20px;
+  overflow: hidden;
+  padding: 12px;
+}
+.map-label {
+  position: absolute; top: 16px; left: 20px;
+  font-size: 10px; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; color: rgba(255,255,255,.3);
+}
+.map-badge {
+  position: absolute; top: 12px; right: 12px;
+  font-size: 10px; font-weight: 700;
+  color: #5ECFAB;
+  background: rgba(94,207,171,.12);
+  border: 1px solid rgba(94,207,171,.2);
+  border-radius: 100px;
+  padding: 4px 12px;
+  display: flex; align-items: center; gap: 5px;
+}
+.map-badge::before {
+  content: '';
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #5ECFAB;
+  animation: blink 1.8s ease-in-out infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+/* SVG Animations */
+@keyframes dash-flow {
+  to { stroke-dashoffset: -40; }
+}
+@keyframes node-pulse {
+  0%,100% { r: 6; opacity: .9; }
+  50% { r: 9; opacity: .5; }
+}
+@keyframes glow-pulse {
+  0%,100% { r: 14; opacity: .25; }
+  50% { r: 20; opacity: .08; }
+}
+@keyframes counter-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.route-line {
+  stroke-dasharray: 8 5;
+  animation: dash-flow 2.2s linear infinite;
+  fill: none;
+}
+.route-line-slow { animation-duration: 3.5s; }
+.route-line-fast { animation-duration: 1.6s; }
+
+/* Stats below map */
+.map-stats {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1px; background: rgba(255,255,255,.06);
+  border-top: 1px solid rgba(255,255,255,.06);
+  margin: 0 -12px -12px;
+}
+.ms {
+  padding: 16px 18px;
+  background: rgba(255,255,255,.02);
+}
+.ms-val { font-size: 20px; font-weight: 700; color: #fff; letter-spacing: -.02em; }
+.ms-val .pos { color: #5ECFAB; }
+.ms-desc { font-size: 10px; color: rgba(255,255,255,.32); margin-top: 3px; line-height: 1.4; }
+
+/* Hero meta */
+.hero-meta {
+  border-top: 1px solid rgba(255,255,255,.07);
+  padding: 24px 0;
+  display: flex; flex-wrap: wrap; gap: 28px;
+  position: relative; z-index: 2;
+}
+.hero-meta-item { font-size: 11px; color: rgba(255,255,255,.32); font-weight: 500; letter-spacing: .03em; }
+.hero-meta-item b { color: rgba(255,255,255,.6); font-weight: 600; margin-right: 4px; }
+
+/* ─── SECTION BASE ──────────────────────── */
+.sec { padding: 88px 5vw; border-bottom: 1px solid var(--light); }
+.w-content { max-width: 800px; }
+.w-wide { max-width: 1140px; }
+.sec-label { display: block; font-size: 11px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+.sec-h2 { font-size: clamp(28px,3.5vw,44px); font-weight: 700; line-height: 1.2; letter-spacing: -.025em; color: var(--dark); }
+.sec-sub { margin-top: 16px; font-size: 17px; font-weight: 400; line-height: 1.7; color: var(--mid); max-width: 600px; }
+
+/* ─── PIPELINE / ROUTE VISUAL ───────────── */
+.pipeline-sec { background: var(--dark); padding: 88px 5vw; border-bottom: 1px solid rgba(255,255,255,.06); }
+.pipeline-sec .sec-label { color: #6898FF; }
+.pipeline-sec .sec-h2 { color: #fff; }
+.pipeline-sec .sec-sub { color: rgba(255,255,255,.45); }
+
+.pipeline {
+  margin-top: 56px;
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+}
+
+/* Connector line behind everything */
+.pipeline::before {
+  content: '';
+  position: absolute;
+  top: 36px; left: 48px; right: 48px; height: 2px;
+  background: rgba(255,255,255,.06);
+  z-index: 0;
+}
+
+.pipe-step {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+.pipe-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 34px; left: 50%; right: -50%;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(16,71,230,.6), rgba(16,71,230,.1));
+  z-index: 0;
+}
+
+.pipe-icon {
+  width: 72px; height: 72px; border-radius: 50%;
+  border: 2px solid rgba(255,255,255,.1);
+  background: rgba(255,255,255,.04);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 16px;
+  position: relative; z-index: 2;
+  transition: border-color .25s, background .25s;
+}
+.pipe-step.active .pipe-icon {
+  border-color: var(--accent);
+  background: rgba(16,71,230,.15);
+  box-shadow: 0 0 0 8px rgba(16,71,230,.08);
+}
+.pipe-step.done .pipe-icon {
+  border-color: var(--success);
+  background: rgba(13,122,95,.15);
+}
+.pipe-icon svg { width: 28px; height: 28px; }
+
+.pipe-n {
+  font-size: 26px; font-weight: 700;
+  color: #fff; letter-spacing: -.02em;
+  line-height: 1;
+}
+.pipe-step.active .pipe-n { color: #6898FF; }
+.pipe-step.done .pipe-n { color: #5ECFAB; }
+.pipe-lbl {
+  font-size: 11px; font-weight: 600; letter-spacing: .05em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.35);
+  margin-top: 6px;
+  line-height: 1.4;
+}
+.pipe-sub {
+  font-size: 12px; color: rgba(255,255,255,.25);
+  margin-top: 4px; line-height: 1.5;
+}
+
+/* ─── BEFORE ────────────────────────────── */
+.problems {
+  margin-top: 52px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.prob {
+  background: var(--surface);
+  border: 1px solid var(--light);
+  border-radius: var(--r);
+  padding: 30px;
+  transition: box-shadow .25s var(--ease), transform .25s var(--ease);
+}
+.prob:hover { box-shadow: 0 16px 40px rgba(0,0,0,.06); transform: translateY(-3px); }
+.prob-n { font-size: 11px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--accent); background: var(--accent-l); display: inline-block; padding: 4px 12px; border-radius: 6px; margin-bottom: 14px; }
+.prob-title { font-size: 17px; font-weight: 700; line-height: 1.3; color: var(--dark); letter-spacing: -.015em; margin-bottom: 10px; }
+.prob-text { font-size: 14px; line-height: 1.7; color: var(--mid); }
+.prob-tag { margin-top: 16px; display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: #7A3F0A; background: #FEF3E2; padding: 4px 10px; border-radius: 6px; }
+
+.insight { margin-top: 16px; background: var(--dark); border-radius: var(--r); padding: 26px 34px; display: flex; gap: 18px; align-items: flex-start; }
+.insight-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+.insight-copy { font-size: 15px; color: rgba(255,255,255,.6); line-height: 1.7; }
+.insight-copy strong { color: #fff; font-weight: 600; }
+
+/* ─── PULL QUOTE ────────────────────────── */
+.pull { background: #0A0A0A; padding: 88px 5vw; border-bottom: 1px solid rgba(255,255,255,.06); position: relative; overflow: hidden; }
+.pull::before { content: '\201C'; position: absolute; top: -30px; left: 3vw; font-size: 260px; font-weight: 800; line-height: 1; color: rgba(255,255,255,.025); pointer-events: none; }
+.pull-inner { max-width: 760px; margin: 0 auto; }
+.pull-q { font-size: clamp(21px,2.6vw,30px); font-weight: 600; line-height: 1.5; color: #fff; letter-spacing: -.018em; }
+.pull-context { margin-top: 22px; font-size: 15px; color: rgba(255,255,255,.4); line-height: 1.7; max-width: 540px; }
+.pull-author { margin-top: 30px; display: inline-flex; align-items: center; gap: 12px; border: 1px solid rgba(255,255,255,.1); border-radius: 100px; padding: 8px 20px 8px 8px; background: rgba(255,255,255,.04); }
+.pull-av { width: 36px; height: 36px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #fff; }
+.pull-author-name { font-size: 13px; font-weight: 600; color: #fff; display: block; }
+.pull-author-role { font-size: 11px; color: rgba(255,255,255,.38); }
+
+/* ─── TIMELINE ──────────────────────────── */
+.tl-wrap { margin-top: 56px; }
+.tl-item {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  border-top: 1px solid var(--light);
+  padding: 44px 0;
+  gap: 48px;
+}
+.tl-num { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+.tl-phase { font-size: 20px; font-weight: 700; color: var(--dark); line-height: 1.2; letter-spacing: -.02em; }
+.tl-title { font-size: 17px; font-weight: 700; color: var(--dark); line-height: 1.3; letter-spacing: -.015em; margin-bottom: 12px; }
+.tl-text { font-size: 15px; color: var(--mid); line-height: 1.75; }
+.tl-callout { margin-top: 20px; padding: 18px 22px; border-left: 3px solid var(--accent); background: var(--accent-l); border-radius: 0 var(--r) var(--r) 0; font-size: 14px; line-height: 1.65; color: var(--dark); }
+.tl-callout b { font-weight: 700; color: var(--accent); }
+.tl-tags { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 8px; }
+.tl-tag { font-size: 11px; font-weight: 600; letter-spacing: .04em; color: var(--mid); border: 1px solid var(--light); padding: 5px 12px; border-radius: 8px; background: var(--surface); transition: all .18s; cursor: default; }
+.tl-tag:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-l); }
+
+/* ─── RESULTS ───────────────────────────── */
+.results-sec { background: var(--surface); }
+
+/* Counter cards */
+.metrics-row {
+  margin-top: 52px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.m-card {
+  background: var(--dark);
+  border-radius: var(--r-lg);
+  padding: 40px 34px;
+  position: relative; overflow: hidden;
+}
+.m-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: var(--accent); }
+.m-n { font-size: clamp(38px,4vw,54px); font-weight: 700; line-height: 1; letter-spacing: -.04em; color: #fff; }
+.m-n em { color: #6898FF; font-style: normal; }
+.m-n .counter { display: inline-block; }
+.m-desc { margin-top: 12px; font-size: 13px; color: rgba(255,255,255,.4); line-height: 1.55; }
+
+/* Truck SVG decoration on cards */
+.m-card-icon {
+  position: absolute; top: 20px; right: 20px;
+  opacity: .07;
+}
+
+/* Bars */
+.bars { margin-top: 48px; display: flex; flex-direction: column; gap: 26px; }
+.bar-r { display: grid; grid-template-columns: 260px 1fr 130px; gap: 24px; align-items: center; }
+.bar-lbl { font-size: 14px; font-weight: 600; color: var(--dark); line-height: 1.45; }
+.bar-lbl small { display: block; font-size: 12px; font-weight: 400; color: var(--mid); margin-top: 3px; }
+.bar-track { height: 8px; background: var(--light); border-radius: 100px; position: relative; overflow: hidden; }
+.bar-was { position: absolute; left: 0; top: 0; bottom: 0; background: #D1D5DB; border-radius: 100px; }
+.bar-now { position: absolute; left: 0; top: 0; bottom: 0; background: linear-gradient(90deg, var(--success), #34D399); border-radius: 100px; width: 0; transition: width 1.4s .1s var(--ease); box-shadow: 0 0 10px rgba(13,122,95,.2); }
+.bar-vals { text-align: right; }
+.bar-now-v { font-size: 20px; font-weight: 700; color: var(--success); letter-spacing: -.02em; }
+.bar-was-v { font-size: 12px; color: var(--mid); margin-top: 2px; }
+
+/* ─── TESTIMONIAL ───────────────────────── */
+.test-grid { margin-top: 0; display: grid; grid-template-columns: 1fr 340px; gap: 52px; align-items: start; }
+.test-main { background: var(--surface); border: 1px solid var(--light); border-radius: var(--r-lg); padding: 44px; box-shadow: 0 20px 48px rgba(0,0,0,.05); }
+.test-q { font-size: clamp(16px,1.7vw,20px); font-weight: 500; line-height: 1.65; color: var(--dark); letter-spacing: -.01em; }
+.test-who { margin-top: 30px; padding-top: 26px; border-top: 1px solid var(--light); display: flex; align-items: center; gap: 14px; }
+.test-av { width: 46px; height: 46px; border-radius: 50%; background: var(--accent-l); color: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; flex-shrink: 0; border: 1px solid rgba(16,71,230,.12); }
+.test-name { font-size: 15px; font-weight: 700; color: var(--dark); }
+.test-role { font-size: 11px; color: var(--mid); margin-top: 3px; }
+.test-nps { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; font-size: 11px; font-weight: 700; color: var(--success); background: var(--success-l); border: 1px solid rgba(13,122,95,.12); padding: 8px 18px; border-radius: 100px; letter-spacing: .03em; }
+.test-aside { display: flex; flex-direction: column; gap: 14px; }
+.aside-card { background: var(--surface); border: 1px solid var(--light); border-radius: var(--r); padding: 24px; transition: box-shadow .2s; }
+.aside-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,.05); }
+.aside-lbl { font-size: 11px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+.aside-text { font-size: 14px; color: var(--dark); line-height: 1.7; }
+
+/* ─── DELIVERABLES ──────────────────────── */
+.del-sec { background: #F0EFEB; }
+.del-grid { margin-top: 52px; display: grid; grid-template-columns: repeat(5,1fr); gap: 12px; }
+.del-card { background: var(--surface); border: 1px solid var(--light); border-radius: var(--r); padding: 28px 22px; transition: transform .25s var(--ease), box-shadow .25s; }
+.del-card:hover { transform: translateY(-4px); box-shadow: 0 16px 32px rgba(0,0,0,.06); }
+.del-icon { width: 44px; height: 44px; background: var(--accent-l); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+.del-icon svg { width: 22px; height: 22px; }
+.del-title { font-size: 15px; font-weight: 700; color: var(--dark); line-height: 1.3; letter-spacing: -.01em; margin-bottom: 8px; }
+.del-text { font-size: 13px; color: var(--mid); line-height: 1.6; }
+
+/* ─── CTA ───────────────────────────────── */
+.cta-sec { background: var(--dark); padding: 88px 5vw; display: grid; grid-template-columns: 1fr 420px; gap: 80px; align-items: center; position: relative; overflow: hidden; }
+.cta-sec::before { content: ''; position: absolute; right: -80px; top: -80px; width: 360px; height: 360px; border-radius: 50%; background: radial-gradient(circle, rgba(16,71,230,.15) 0%, transparent 70%); filter: blur(40px); pointer-events: none; }
+.cta-label { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.3); margin-bottom: 18px; display: block; }
+.cta-h2 { font-size: clamp(28px,3.5vw,44px); font-weight: 700; line-height: 1.2; letter-spacing: -.025em; color: #fff; }
+.cta-body { margin-top: 20px; font-size: 17px; color: rgba(255,255,255,.45); line-height: 1.7; }
+.cta-body strong { color: rgba(255,255,255,.75); font-weight: 600; }
+.cta-box { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.09); border-radius: var(--r-lg); padding: 40px 38px; position: relative; z-index: 1; }
+.cta-box-title { font-size: 22px; font-weight: 700; color: #fff; letter-spacing: -.02em; margin-bottom: 6px; }
+.cta-box-sub { font-size: 13px; color: rgba(255,255,255,.38); margin-bottom: 26px; line-height: 1.5; }
+.btn-primary { display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600; color: #fff; background: var(--accent); text-decoration: none; padding: 15px 28px; border-radius: 100px; margin-bottom: 12px; transition: background .2s, transform .2s; box-shadow: 0 4px 16px rgba(16,71,230,.3); }
+.btn-primary:hover { background: #0D38C0; transform: translateY(-1px); }
+.btn-ghost { display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 500; color: rgba(255,255,255,.55); border: 1px solid rgba(255,255,255,.1); text-decoration: none; padding: 13px 28px; border-radius: 100px; transition: border-color .2s, color .2s; }
+.btn-ghost:hover { border-color: rgba(255,255,255,.3); color: #fff; }
+.cta-fine { text-align: center; margin-top: 14px; font-size: 12px; color: rgba(255,255,255,.2); }
+
+/* ─── SIMILAR ───────────────────────────── */
+.sim-sec { padding: 88px 5vw; background: var(--bg); }
+.sim-grid { margin-top: 44px; display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+.sim-card { display: block; text-decoration: none; background: var(--surface); border: 1px solid var(--light); border-radius: var(--r); padding: 30px; transition: transform .25s var(--ease), box-shadow .25s, border-color .2s; }
+.sim-card:hover { border-color: rgba(0,0,0,.12); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,.06); }
+.sim-ind { font-size: 11px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+.sim-title { font-size: 15px; font-weight: 600; color: var(--dark); line-height: 1.45; letter-spacing: -.01em; margin-bottom: 22px; }
+.sim-div { height: 1px; background: var(--light); margin-bottom: 16px; }
+.sim-n { font-size: 30px; font-weight: 700; color: var(--success); letter-spacing: -.03em; }
+.sim-n-lbl { font-size: 12px; color: var(--mid); margin-top: 3px; }
+
+/* ─── REVEAL ────────────────────────────── */
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
+.reveal.show { opacity: 1; transform: none; }
+
+/* ─── RESPONSIVE ────────────────────────── */
+@media(max-width:1100px){
+  .hero-main{grid-template-columns:1fr;gap:40px}
+  .map-wrap{max-width:560px}
+  .tl-item{grid-template-columns:1fr;gap:14px}
+  .metrics-row{grid-template-columns:1fr}
+  .test-grid{grid-template-columns:1fr}
+  .cta-sec{grid-template-columns:1fr;gap:48px}
+  .del-grid{grid-template-columns:repeat(3,1fr)}
+  .sim-grid{grid-template-columns:1fr 1fr}
+  .bar-r{grid-template-columns:1fr;gap:10px}.bar-vals{text-align:left}
+  .pipeline{flex-wrap:wrap;gap:24px}
+  .pipe-step{flex:0 0 40%;min-width:160px}
+  .pipeline::before,.pipe-step::after{display:none}
+  .map-stats{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:680px){
+  .problems{grid-template-columns:1fr}
+  .del-grid{grid-template-columns:1fr 1fr}
+  .sim-grid{grid-template-columns:1fr}
+  .nav-pill{display:none}
+  .test-main{padding:28px}
+  .pipe-step{flex:0 0 100%}
+}
+@media(max-width:420px){ .del-grid{grid-template-columns:1fr} }
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══════════════════════════════════ -->
+<nav class="nav" id="nav">
+  <a href="#" class="nav-logo">B2<span>Boost</span></a>
+  <div class="nav-right">
+    <span class="nav-pill">Кейс · Логистика</span>
+    <a href="https://t.me/SM8EG" class="nav-btn" target="_blank" rel="noopener">Обсудить проект</a>
+  </div>
+</nav>
+
+<!-- ═══ HERO ══════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-glow"></div>
+
+  <div class="hero-main">
+    <!-- Text -->
+    <div>
+      <div class="hero-eyebrow reveal">
+        <span class="hero-eyebrow-line"></span>
+        B2B-грузоперевозки · 4 месяца · 2026
+      </div>
+      <h1 class="hero-h1 reveal">
+        Пять лет без&nbsp;отдела продаж.<br>
+        За 4 месяца новый РОП<br>
+        <span class="hl">перегрузила логистику.</span>
+      </h1>
+      <p class="hero-body reveal">
+        Как «Логос» — B2B-транспортная компания — создала системный отдел продаж с нуля, нашла сильного РОПа и столкнулась с лучшей проблемой в бизнесе: продавцы работали быстрее, чем успевала операционная команда.
+      </p>
+      <div class="hero-client reveal">
+        <div class="hero-av">ИБ</div>
+        <div>
+          <div class="hero-client-name">Илья Бойко & Алексей Коротков</div>
+          <div class="hero-client-role">Соучредители, ТК «Логос» · Москва</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Logistics Map -->
+    <div class="map-wrap reveal">
+      <span class="map-label">Карта маршрутов</span>
+      <div class="map-badge">Активно</div>
+
+      <!-- SVG MAP -->
+      <svg viewBox="0 0 440 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;margin-top:28px">
+        <!-- Grid -->
+        <defs>
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M40 0L0 0 0 40" fill="none" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+          </pattern>
+          <filter id="glow-filter">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <rect width="440" height="260" fill="url(#grid)"/>
+
+        <!-- ── ROUTE LINES ── -->
+        <!-- Moscow → Ekaterinburg -->
+        <path d="M100,130 C160,100 230,95 300,110" class="route-line" stroke="#1047E6" stroke-width="1.5" opacity=".7"/>
+        <!-- Moscow → SPb -->
+        <path d="M100,130 C90,80 80,50 95,30" class="route-line route-line-slow" stroke="#1047E6" stroke-width="1.5" opacity=".5"/>
+        <!-- Ekaterinburg → Novosibirsk -->
+        <path d="M300,110 C340,105 380,112 415,118" class="route-line route-line-fast" stroke="#1047E6" stroke-width="1.5" opacity=".6"/>
+        <!-- Moscow → South -->
+        <path d="M100,130 C130,165 160,190 200,210" class="route-line route-line-slow" stroke="rgba(94,207,171,.6)" stroke-width="1.5" opacity=".55"/>
+        <!-- Ekaterinburg → China -->
+        <path d="M300,110 C340,140 380,170 415,195" class="route-line" stroke="rgba(94,207,171,.5)" stroke-width="1.5" opacity=".5"/>
+        <!-- SPb → Moscow (thicker active) -->
+        <path d="M95,30 C100,70 100,100 100,130" class="route-line route-line-fast" stroke="#6898FF" stroke-width="2" opacity=".8"/>
+
+        <!-- ── MOVING DOTS ── -->
+        <!-- Dot along Moscow-Ekaterinburg route -->
+        <circle r="4" fill="#fff" filter="url(#glow-filter)" opacity=".9">
+          <animateMotion dur="4s" repeatCount="indefinite">
+            <mpath href="#path-msk-ekt"/>
+          </animateMotion>
+        </circle>
+        <path id="path-msk-ekt" d="M100,130 C160,100 230,95 300,110" fill="none"/>
+
+        <!-- Dot along SPb-Moscow -->
+        <circle r="3" fill="#6898FF" filter="url(#glow-filter)" opacity=".8">
+          <animateMotion dur="2.8s" repeatCount="indefinite" begin="1s">
+            <mpath href="#path-spb-msk"/>
+          </animateMotion>
+        </circle>
+        <path id="path-spb-msk" d="M95,30 C100,70 100,100 100,130" fill="none"/>
+
+        <!-- Dot along China route -->
+        <circle r="3.5" fill="#5ECFAB" filter="url(#glow-filter)" opacity=".75">
+          <animateMotion dur="5.5s" repeatCount="indefinite" begin=".5s">
+            <mpath href="#path-ekt-cn"/>
+          </animateMotion>
+        </circle>
+        <path id="path-ekt-cn" d="M300,110 C340,140 380,170 415,195" fill="none"/>
+
+        <!-- ── CITY NODES ── -->
+
+        <!-- Moscow (main hub) -->
+        <circle cx="100" cy="130" r="20" fill="rgba(16,71,230,.12)" class="pulse-ring">
+          <animate attributeName="r" values="14;22;14" dur="3s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values=".25;.05;.25" dur="3s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="100" cy="130" r="8" fill="#1047E6" opacity=".95"/>
+        <circle cx="100" cy="130" r="4" fill="#fff"/>
+        <text x="100" y="150" text-anchor="middle" font-size="10" fill="rgba(255,255,255,.55)" font-family="Inter,sans-serif" font-weight="600">Москва</text>
+
+        <!-- SPb -->
+        <circle cx="95" cy="30" r="14" fill="rgba(16,71,230,.1)">
+          <animate attributeName="r" values="10;16;10" dur="4s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values=".2;.05;.2" dur="4s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="95" cy="30" r="6" fill="#1047E6" opacity=".8"/>
+        <circle cx="95" cy="30" r="3" fill="#fff"/>
+        <text x="95" y="22" text-anchor="middle" font-size="9" fill="rgba(255,255,255,.45)" font-family="Inter,sans-serif">СПб</text>
+
+        <!-- Ekaterinburg -->
+        <circle cx="300" cy="110" r="18" fill="rgba(16,71,230,.1)">
+          <animate attributeName="r" values="12;20;12" dur="3.5s" repeatCount="indefinite" begin=".7s"/>
+          <animate attributeName="opacity" values=".22;.05;.22" dur="3.5s" repeatCount="indefinite" begin=".7s"/>
+        </circle>
+        <circle cx="300" cy="110" r="7" fill="#1047E6" opacity=".85"/>
+        <circle cx="300" cy="110" r="3.5" fill="#fff"/>
+        <text x="300" y="130" text-anchor="middle" font-size="9" fill="rgba(255,255,255,.45)" font-family="Inter,sans-serif">Екатеринбург</text>
+
+        <!-- Novosibirsk -->
+        <circle cx="415" cy="118" r="5" fill="#6898FF" opacity=".7"/>
+        <circle cx="415" cy="118" r="2.5" fill="#fff"/>
+        <text x="405" y="110" text-anchor="middle" font-size="9" fill="rgba(255,255,255,.38)" font-family="Inter,sans-serif">Новосибирск</text>
+
+        <!-- South hub -->
+        <circle cx="200" cy="210" r="5" fill="#5ECFAB" opacity=".7"/>
+        <circle cx="200" cy="210" r="2.5" fill="#fff"/>
+        <text x="200" y="225" text-anchor="middle" font-size="9" fill="rgba(255,255,255,.35)" font-family="Inter,sans-serif">Юг</text>
+
+        <!-- China hub -->
+        <circle cx="415" cy="195" r="14" fill="rgba(94,207,171,.1)">
+          <animate attributeName="r" values="10;18;10" dur="4.5s" repeatCount="indefinite" begin="1.5s"/>
+          <animate attributeName="opacity" values=".2;.05;.2" dur="4.5s" repeatCount="indefinite" begin="1.5s"/>
+        </circle>
+        <circle cx="415" cy="195" r="6" fill="#5ECFAB" opacity=".8"/>
+        <circle cx="415" cy="195" r="3" fill="#fff"/>
+        <text x="415" y="214" text-anchor="middle" font-size="9" fill="rgba(94,207,171,.55)" font-family="Inter,sans-serif">Китай</text>
+
+        <!-- Distance labels -->
+        <text x="185" y="107" font-size="9" fill="rgba(255,255,255,.22)" font-family="Inter,sans-serif">~1750 км</text>
+        <text x="145" y="55" font-size="9" fill="rgba(255,255,255,.2)" font-family="Inter,sans-serif">~700 км</text>
+
+        <!-- Truck icon near moving dot area -->
+        <g transform="translate(190,88)" opacity=".3">
+          <rect x="0" y="4" width="18" height="10" rx="2" fill="none" stroke="rgba(255,255,255,.6)" stroke-width="1.2"/>
+          <path d="M18,7 L22,7 L24,10 L24,14 L18,14 Z" fill="none" stroke="rgba(255,255,255,.6)" stroke-width="1.2"/>
+          <circle cx="5" cy="14" r="2" fill="rgba(255,255,255,.6)"/>
+          <circle cx="20" cy="14" r="2" fill="rgba(255,255,255,.6)"/>
+        </g>
+      </svg>
+
+      <!-- Stats strip -->
+      <div class="map-stats">
+        <div class="ms">
+          <div class="ms-val"><span class="pos">2,98</span> млн</div>
+          <div class="ms-desc">Выручка ОП в 1-й мес.</div>
+        </div>
+        <div class="ms">
+          <div class="ms-val"><span class="pos">260+</span></div>
+          <div class="ms-desc">Звонков / неделя</div>
+        </div>
+        <div class="ms">
+          <div class="ms-val"><span class="pos">2 нед.</span></div>
+          <div class="ms-desc">Цикл сделки</div>
+        </div>
+        <div class="ms">
+          <div class="ms-val"><span class="pos">0 ч.</span></div>
+          <div class="ms-desc">Учредителей в продажах</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-meta">
+    <div class="hero-meta-item"><b>Клиент:</b>ТК «Логос»</div>
+    <div class="hero-meta-item"><b>Рынок:</b>B2B-грузоперевозки, Россия / СНГ / Китай</div>
+    <div class="hero-meta-item"><b>Срок:</b>4 месяца</div>
+    <div class="hero-meta-item"><b>PM:</b>Роман Крупаневич</div>
+    <div class="hero-meta-item"><b>NPS:</b>9 / 10</div>
+  </div>
+</section>
+
+<!-- ═══ BEFORE ════════════════════════════════ -->
+<section class="sec">
+  <div class="w-content">
+    <span class="sec-label reveal">Ситуация до проекта</span>
+    <h2 class="sec-h2 reveal">Узнаёте?</h2>
+    <p class="sec-sub reveal">За 5 лет учредители построили надёжную транспортную компанию — но весь коммерческий блок держался только на их личном времени.</p>
+  </div>
+  <div class="problems w-wide reveal">
+    <div class="prob">
+      <span class="prob-n">Проблема 1</span>
+      <div class="prob-title">Собственники — единственные продавцы</div>
+      <div class="prob-text">Вся работа с клиентами велась исключительно Илёй и Алексеем. Нанятых продавцов нет, книги продаж нет. 100% времени уходит в коммерческую рутину — рост заблокирован.</div>
+      <span class="prob-tag">Масштабирование невозможно</span>
+    </div>
+    <div class="prob">
+      <span class="prob-n">Проблема 2</span>
+      <div class="prob-title">Хаотичный портфель, низкая маржа</div>
+      <div class="prob-text">Нет ICP. Низкорентабельные заказчики занимают до 60% мощностей, выдавливая крупные высокомаржинальные сделки. Себестоимость считается «на глаз».</div>
+      <span class="prob-tag">Рентабельность снижается</span>
+    </div>
+    <div class="prob">
+      <span class="prob-n">Проблема 3</span>
+      <div class="prob-title">Excel вместо CRM, аналитики нет</div>
+      <div class="prob-text">История клиентов — в разрозненных таблицах. Промежуточные стадии не фиксируются, прогноз выручки невозможен, конверсии никто не считает.</div>
+      <span class="prob-tag">0% прозрачности</span>
+    </div>
+    <div class="prob">
+      <span class="prob-n">Проблема 4</span>
+      <div class="prob-title">Только тендеры и сарафанное радио</div>
+      <div class="prob-text">Системного телемаркетинга нет. Новые клиенты появляются бессистемно — без воронки, без повторяемости, без возможности планировать рост.</div>
+      <span class="prob-tag">Непредсказуемый поток</span>
+    </div>
+  </div>
+  <div class="insight w-wide reveal">
+    <div class="insight-icon">💡</div>
+    <div class="insight-copy"><strong>Ключевой инсайт:</strong> как только РОП Анастасия запустила работу по базам в Bitrix24 — заявок стало так много, что логисты не успевали считать маржу. Проблема сместилась из продаж в производство.</div>
+  </div>
+</section>
+
+<!-- ═══ PIPELINE VISUALIZATION ════════════════ -->
+<section class="pipeline-sec">
+  <div class="w-content">
+    <span class="sec-label reveal">Воронка продаж</span>
+    <h2 class="sec-h2 reveal">Маршрут от звонка до клиента</h2>
+    <p class="sec-sub reveal">Каждая сделка — это маршрут. Мы оцифровали каждую точку пути и замерили конверсию на каждом этапе.</p>
+  </div>
+
+  <div class="pipeline w-wide reveal" style="margin-top:52px">
+
+    <div class="pipe-step">
+      <div class="pipe-icon">
+        <!-- Phone SVG -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="1.8" stroke-linecap="round">
+          <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+        </svg>
+      </div>
+      <div class="pipe-n">260</div>
+      <div class="pipe-lbl">Звонков<br>в неделю</div>
+      <div class="pipe-sub">Холодный<br>телемаркетинг</div>
+    </div>
+
+    <div class="pipe-step active">
+      <div class="pipe-icon">
+        <!-- Check SVG -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="#6898FF" stroke-width="1.8" stroke-linecap="round">
+          <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+          <polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+      </div>
+      <div class="pipe-n">34</div>
+      <div class="pipe-lbl">Квали&shy;фикация</div>
+      <div class="pipe-sub">Конверсия ~13%</div>
+    </div>
+
+    <div class="pipe-step">
+      <div class="pipe-icon">
+        <!-- Chart SVG -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="1.8" stroke-linecap="round">
+          <line x1="18" y1="20" x2="18" y2="10"/>
+          <line x1="12" y1="20" x2="12" y2="4"/>
+          <line x1="6" y1="20" x2="6" y2="14"/>
+        </svg>
+      </div>
+      <div class="pipe-n">47</div>
+      <div class="pipe-lbl">Расчётов<br>маржи</div>
+      <div class="pipe-sub">В проработке</div>
+    </div>
+
+    <div class="pipe-step">
+      <div class="pipe-icon">
+        <!-- Document SVG -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="1.8" stroke-linecap="round">
+          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+        </svg>
+      </div>
+      <div class="pipe-n">12</div>
+      <div class="pipe-lbl">Договоров<br>на подписи</div>
+      <div class="pipe-sub">СБ-проверка</div>
+    </div>
+
+    <div class="pipe-step done">
+      <div class="pipe-icon">
+        <!-- Truck SVG -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="#5ECFAB" stroke-width="1.8" stroke-linecap="round">
+          <rect x="1" y="3" width="15" height="13"/>
+          <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
+          <circle cx="5.5" cy="18.5" r="2.5"/>
+          <circle cx="18.5" cy="18.5" r="2.5"/>
+        </svg>
+      </div>
+      <div class="pipe-n">2,98<small style="font-size:16px;font-weight:600"> млн</small></div>
+      <div class="pipe-lbl">Выручка ОП<br>за месяц</div>
+      <div class="pipe-sub">Активные клиенты</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ PULL QUOTE ════════════════════════════ -->
+<section class="pull">
+  <div class="pull-inner">
+    <blockquote class="pull-q reveal">«Компании уже шестой год, и все пять лет отдел продаж — это были мы с Алексеем. Наша задача — уйти в системность, нанять РОПа и расти на новые регионы, не сгорая в текучке.»</blockquote>
+    <p class="pull-context reveal">Илья обратился в B2Boost, понимая: личный ресурс основателей исчерпан, а компании нужен системный приток высокомаржинальных B2B-клиентов.</p>
+    <div class="pull-author reveal">
+      <div class="pull-av">ИБ</div>
+      <div>
+        <span class="pull-author-name">Илья Бойко</span>
+        <span class="pull-author-role">Соучредитель, ТК «Логос»</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WHAT WE DID ═══════════════════════════ -->
+<section class="sec">
+  <div class="w-content">
+    <span class="sec-label reveal">Что и как делали</span>
+    <h2 class="sec-h2 reveal">4 месяца изнутри</h2>
+    <p class="sec-sub reveal">Мы не даём советы издалека. Настраиваем процессы своими руками, рядом с командой.</p>
+  </div>
+  <div class="tl-wrap w-wide">
+    <div class="tl-item reveal">
+      <div><div class="tl-num">Месяц 01</div><div class="tl-phase">Наём & воронка</div></div>
+      <div>
+        <div class="tl-title">Наём РОПа Анастасии и проектирование воронки</div>
+        <div class="tl-text">Прописали структуру воронки под специфику грузоперевозок: критерии квалификации (НДС, география, регулярность). По скоринговой методологии B2Boost отобрали и наняли Анастасию Зубаль. Параллельно разработали регламент согласования договоров.</div>
+        <div class="tl-callout"><b>Результат:</b> жёсткий скоринг позволил нанять РОПа с навыками активных продаж, готовую строить отдел с нуля.</div>
+        <div class="tl-tags"><span class="tl-tag">Карта воронки</span><span class="tl-tag">Регламент договоров</span><span class="tl-tag">Профиль РОПа</span></div>
+      </div>
+    </div>
+    <div class="tl-item reveal">
+      <div><div class="tl-num">Месяц 02</div><div class="tl-phase">CRM & запуск</div></div>
+      <div>
+        <div class="tl-title">Конфигурация Bitrix24 и холодный телемаркетинг</div>
+        <div class="tl-text">Перенесли Excel-базы в настроенную CRM с роботами, SLA и автоназначением задач. Анастасия запустила регулярный холодный обзвон — до 260 звонков в неделю. Первые заявки на расчёт появились в первые дни.</div>
+        <div class="tl-callout"><b>Регулярный менеджмент:</b> внедрили утренние планёрки — факт за вчера, цели на день, синхрон с логистикой.</div>
+        <div class="tl-tags"><span class="tl-tag">Bitrix24</span><span class="tl-tag">База знаний ICP</span><span class="tl-tag">Регламент планёрки</span></div>
+      </div>
+    </div>
+    <div class="tl-item reveal">
+      <div><div class="tl-num">Месяц 03</div><div class="tl-phase">Рост</div></div>
+      <div>
+        <div class="tl-title">Тёплые базы и первые 3 млн рублей</div>
+        <div class="tl-text">Алексей передал Анастасии качественную дилерскую базу — конверсия резко выросла. В проработке 47 расчётов маржинальности, 6 крупных клиентов в проверке СБ. За апрель новый ОП принёс 2 984 000 рублей первой системной выручки.</div>
+        <div class="tl-callout"><b>Согласование ускорилось:</b> автоматический процесс в Bitrix24 сократил согласование с 5 дней до нескольких часов.</div>
+        <div class="tl-tags"><span class="tl-tag">Отчёт РНП</span><span class="tl-tag">Книга продаж</span><span class="tl-tag">Авто-процесс</span></div>
+      </div>
+    </div>
+    <div class="tl-item reveal">
+      <div><div class="tl-num">Месяц 04</div><div class="tl-phase">Контроль</div></div>
+      <div>
+        <div class="tl-title">«Умная Логистика» и вынужденная пауза</div>
+        <div class="tl-text">Внедрена «Умная Логистика» — цикл сделки сократился до 2 недель. Активность Анастасии перегрузила логистов: они не успевали считать маржу. Решение: нанять менеджера по сопровождению, упаковать базу знаний в LMS.</div>
+        <div class="tl-callout"><b>Лучший KPI:</b> собственники попросили сбавить темп продаж, пока расширяется штат логистов. Продажи опередили производство.</div>
+        <div class="tl-tags"><span class="tl-tag">Умная Логистика</span><span class="tl-tag">Мотивационная модель</span><span class="tl-tag">Курс LMS</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ RESULTS ═══════════════════════════════ -->
+<section class="sec results-sec">
+  <div class="w-content">
+    <span class="sec-label reveal">Результаты</span>
+    <h2 class="sec-h2 reveal">Было → стало</h2>
+    <p class="sec-sub reveal">Только оцифрованные показатели из системы — без округлений.</p>
+  </div>
+
+  <div class="metrics-row w-wide reveal" id="counters-root">
+    <div class="m-card">
+      <div class="m-card-icon">
+        <svg width="80" height="60" viewBox="0 0 80 60" fill="none">
+          <rect x="0" y="15" width="50" height="30" rx="4" stroke="white" stroke-width="2"/>
+          <polygon points="50,22 70,22 78,34 78,45 50,45" stroke="white" stroke-width="2" fill="none"/>
+          <circle cx="18" cy="48" r="7" stroke="white" stroke-width="2"/>
+          <circle cx="60" cy="48" r="7" stroke="white" stroke-width="2"/>
+        </svg>
+      </div>
+      <div class="m-n"><em class="counter" data-target="2984" data-suffix=" тыс ₽">0</em></div>
+      <div class="m-desc">Выручка нового отдела продаж в первый месяц. Стартовали с нуля.</div>
+    </div>
+    <div class="m-card">
+      <div class="m-card-icon">
+        <svg width="80" height="60" viewBox="0 0 80 60" fill="none">
+          <path d="M10,45 L10,15 L25,25 L40,10 L55,30 L70,20" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <circle cx="70" cy="20" r="4" fill="white" opacity=".5"/>
+        </svg>
+      </div>
+      <div class="m-n"><em class="counter" data-target="260" data-suffix="+">0</em></div>
+      <div class="m-desc">Звонков в неделю от РОПа Анастасии на этапе тестирования гипотез.</div>
+    </div>
+    <div class="m-card">
+      <div class="m-card-icon">
+        <svg width="80" height="60" viewBox="0 0 80 60" fill="none">
+          <circle cx="40" cy="30" r="22" stroke="white" stroke-width="2"/>
+          <polyline points="40,12 40,30 54,30" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="m-n"><em style="color:#6898FF">0</em> часов</div>
+      <div class="m-desc">Собственников в операционных продажах и переговорах по тарифам.</div>
+    </div>
+  </div>
+
+  <div class="bars w-wide reveal" id="bars-root" style="margin-top:44px">
+    <div class="bar-r">
+      <div><div class="bar-lbl">Выручка ОП<small>0 ₽ → 2,98 млн ₽</small></div></div>
+      <div class="bar-track"><div class="bar-was" style="width:0%"></div><div class="bar-now" data-w="100%"></div></div>
+      <div class="bar-vals"><div class="bar-now-v">2,98 млн</div><div class="bar-was-v">было 0 ₽</div></div>
+    </div>
+    <div class="bar-r">
+      <div><div class="bar-lbl">Активность РОПа в неделю<small>0 → 260+ звонков</small></div></div>
+      <div class="bar-track"><div class="bar-was" style="width:0%"></div><div class="bar-now" data-w="100%"></div></div>
+      <div class="bar-vals"><div class="bar-now-v">260+ зв.</div><div class="bar-was-v">было 0</div></div>
+    </div>
+    <div class="bar-r">
+      <div><div class="bar-lbl">Конверсия звонок → расчёт<small>0% → 13% (план 10%)</small></div></div>
+      <div class="bar-track"><div class="bar-was" style="width:0%"></div><div class="bar-now" data-w="86%"></div></div>
+      <div class="bar-vals"><div class="bar-now-v">13%</div><div class="bar-was-v">было 0%</div></div>
+    </div>
+    <div class="bar-r">
+      <div><div class="bar-lbl">Цикл сделки<small>неуправляемый → 2 недели</small></div></div>
+      <div class="bar-track"><div class="bar-was" style="width:100%"></div><div class="bar-now" data-w="20%" style="background:linear-gradient(90deg,var(--success),#34D399)"></div></div>
+      <div class="bar-vals"><div class="bar-now-v">2 нед.</div><div class="bar-was-v">было ∞</div></div>
+    </div>
+    <div class="bar-r">
+      <div><div class="bar-lbl">Заполненность CRM<small>0% → 96%</small></div></div>
+      <div class="bar-track"><div class="bar-was" style="width:0%"></div><div class="bar-now" data-w="96%"></div></div>
+      <div class="bar-vals"><div class="bar-now-v">96%</div><div class="bar-was-v">было 0%</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TESTIMONIAL ═══════════════════════════ -->
+<section class="sec">
+  <div class="w-content"><span class="sec-label reveal">Слово клиента</span></div>
+  <div class="test-grid w-wide">
+    <div class="test-main reveal">
+      <blockquote class="test-q">«Компании уже шестой год, и все пять лет отдел продаж — это были мы с Алексеем. Вели клиентов вручную, зависели от сарафанного радио. B2Boost помогли нанять РОПа Анастасию и выстроить прозрачную CRM. Она начала продавать настолько мощно, что наша логистика буквально встала: мы не успевали считать маржу и искать транспорт. Нам пришлось временно притормозить продажи, чтобы расширить логистику. Это лучший показатель того, что система работает.»</blockquote>
+      <div class="test-who">
+        <div class="test-av">ИБ</div>
+        <div>
+          <div class="test-name">Илья Бойко & Алексей Коротков</div>
+          <div class="test-role">Соучредители, ТК «Логос» · B2B-грузоперевозки</div>
+        </div>
+      </div>
+      <div class="test-nps">✓&nbsp; NPS проекта — 9 из 10 · Рекомендовали B2Boost</div>
+    </div>
+    <div class="test-aside reveal">
+      <div class="aside-card">
+        <div class="aside-lbl">Слово РОПа</div>
+        <div class="aside-text">«Мне попал в руки золотой слиток, когда Алексей передал мне базы дилеров. Буквально вгрызлась! Но из-за сверхактивности логисты стали меня тормозить — они не успевали. Приятная проблема.»<br><br>— Анастасия Зубаль, РОП «Логос»</div>
+      </div>
+      <div class="aside-card">
+        <div class="aside-lbl">Слово PM B2Boost</div>
+        <div class="aside-text">«В Логосе продажи выросли лавинообразно. С воронкой в Bitrix24 и Умной Логистикой мы загрузили компанию за пару месяцев. Теперь главная задача — расширить штат логистов.»<br><br>— Роман Крупаневич, PM B2Boost</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ DELIVERABLES ══════════════════════════ -->
+<section class="sec del-sec">
+  <div class="w-content">
+    <span class="sec-label reveal">Что остаётся в компании</span>
+    <h2 class="sec-h2 reveal">После проекта — навсегда</h2>
+  </div>
+  <div class="del-grid w-wide reveal">
+    <div class="del-card">
+      <div class="del-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#1047E6" stroke-width="1.8" stroke-linecap="round">
+          <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+        </svg>
+      </div>
+      <div class="del-title">Рост показателей</div>
+      <div class="del-text">Прозрачная конверсия (13%), оцифрованный цикл и растущая B2B-база</div>
+    </div>
+    <div class="del-card">
+      <div class="del-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#1047E6" stroke-width="1.8" stroke-linecap="round">
+          <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>
+        </svg>
+      </div>
+      <div class="del-title">Сильный РОП</div>
+      <div class="del-text">Анастасия управляет продажами без участия собственников</div>
+    </div>
+    <div class="del-card">
+      <div class="del-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#1047E6" stroke-width="1.8" stroke-linecap="round">
+          <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+        </svg>
+      </div>
+      <div class="del-title">Логистическая CRM</div>
+      <div class="del-text">Bitrix24 с роботами и автосогласованием договоров за часы</div>
+    </div>
+    <div class="del-card">
+      <div class="del-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#1047E6" stroke-width="1.8" stroke-linecap="round">
+          <path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>
+        </svg>
+      </div>
+      <div class="del-title">Корпоративная LMS</div>
+      <div class="del-text">База знаний, регламенты и книга продаж в интерактивной системе</div>
+    </div>
+    <div class="del-card">
+      <div class="del-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#1047E6" stroke-width="1.8" stroke-linecap="round">
+          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+        </svg>
+      </div>
+      <div class="del-title">Свобода учредителей</div>
+      <div class="del-text">Илья и Алексей вышли из операционных продаж навсегда</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA ════════════════════════════════════ -->
+<section class="cta-sec">
+  <div style="position:relative;z-index:1">
+    <span class="cta-label reveal">Следующий шаг</span>
+    <h2 class="cta-h2 reveal">Узнайте, где ваш отдел продаж теряет деньги прямо сейчас</h2>
+    <p class="cta-body reveal">30-минутный разбор — бесплатно. <strong>Мы не продаём на первой встрече.</strong> Задаём вопросы, смотрим на цифры и честно говорим, можем ли помочь.</p>
+  </div>
+  <div class="cta-box reveal">
+    <div class="cta-box-title">Написать Егору</div>
+    <div class="cta-box-sub">Основатель B2Boost · отвечает лично · обычно в тот же день</div>
+    <a href="https://t.me/SM8EG" class="btn-primary" target="_blank" rel="noopener">Telegram @SM8EG →</a>
+    <a href="https://t.me/b2booster" class="btn-ghost" target="_blank" rel="noopener">Канал B2Boost — все кейсы</a>
+    <div class="cta-fine">Без обязательств · Конфиденциально</div>
+  </div>
+</section>
+
+<!-- ═══ SIMILAR ════════════════════════════════ -->
+<section class="sim-sec">
+  <div class="w-content">
+    <span class="sec-label reveal">Другие кейсы</span>
+    <h2 class="sec-h2 reveal" style="font-size:clamp(24px,2.8vw,36px)">Похожие истории</h2>
+  </div>
+  <div class="sim-grid w-wide">
+    <a class="sim-card reveal" href="#">
+      <div class="sim-ind">Окна · Производство</div>
+      <div class="sim-title">«Выгорание собственника, хаос в продажах и пустой Битрикс. Как помогли Стройлиге»</div>
+      <div class="sim-div"></div>
+      <div class="sim-n">10 млн ₽+</div>
+      <div class="sim-n-lbl">выручка в месяц (в сезон)</div>
+    </a>
+    <a class="sim-card reveal" href="#">
+      <div class="sim-ind">B2B-услуги</div>
+      <div class="sim-title">«Четвёртый РОП остался — потому что получил систему, а не хаос»</div>
+      <div class="sim-div"></div>
+      <div class="sim-n">×2.4</div>
+      <div class="sim-n-lbl">конверсия в договор</div>
+    </a>
+    <a class="sim-card reveal" href="#">
+      <div class="sim-ind">Металлоконструкции</div>
+      <div class="sim-title">«Три года без РОПа, собственник закрывал сделки сам»</div>
+      <div class="sim-div"></div>
+      <div class="sim-n">+31%</div>
+      <div class="sim-n-lbl">конверсия лид → оплата</div>
+    </a>
+  </div>
+</section>
+
+<script>
+// ── Nav scroll state
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => nav.classList.toggle('up', scrollY > 10), {passive:true});
+
+// ── Reveal on scroll
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const siblings = [...e.target.parentElement.querySelectorAll('.reveal:not(.show)')];
+    const i = siblings.indexOf(e.target);
+    e.target.style.transitionDelay = (Math.min(i, 5) * .07) + 's';
+    e.target.classList.add('show');
+    obs.unobserve(e.target);
+  });
+}, {threshold:.06, rootMargin:'0px 0px -32px 0px'});
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// ── Animated counter
+function animateCounter(el) {
+  const target = +el.dataset.target;
+  const suffix = el.dataset.suffix || '';
+  const dur = 1800;
+  const start = performance.now();
+  const fmt = n => target >= 1000 ? (n/1000).toFixed(n >= 2900 ? 2 : 0) + (suffix.includes('тыс') ? ' тыс ₽' : suffix) : Math.round(n) + suffix;
+
+  function step(now) {
+    const p = Math.min((now - start) / dur, 1);
+    const ease = 1 - Math.pow(1 - p, 4);
+    if (target >= 1000) {
+      el.textContent = (target * ease / 1000).toFixed(2) + ' тыс ₽';
+    } else {
+      el.textContent = Math.round(target * ease) + suffix;
+    }
+    if (p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+let countersRan = false;
+const cRoot = document.getElementById('counters-root');
+if (cRoot) {
+  new IntersectionObserver(([e]) => {
+    if (!e.isIntersecting || countersRan) return;
+    countersRan = true;
+    document.querySelectorAll('.counter').forEach(el => animateCounter(el));
+  }, {threshold:.25}).observe(cRoot);
+}
+
+// ── Animate bars
+let barsRan = false;
+const bRoot = document.getElementById('bars-root');
+if (bRoot) {
+  new IntersectionObserver(([e]) => {
+    if (!e.isIntersecting || barsRan) return;
+    barsRan = true;
+    document.querySelectorAll('.bar-now').forEach((el, i) => {
+      setTimeout(() => { el.style.width = el.dataset.w; }, i * 100);
+    });
+  }, {threshold:.2}).observe(bRoot);
+}
+</script>
+</body>
+</html>
